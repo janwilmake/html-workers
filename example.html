@@ -42,7 +42,12 @@
 
     <script>
         // Server data is immediately available in head - no DOMContentLoaded needed!
-        const data = window.serverData;
+        const dummyData = {
+            title: "Dummy Data in Frontend",
+            items: ["Server Item 1", "Server Item 2", "Server Item 3"],
+            timestamp: new Date().toISOString()
+        }
+        const data = window.serverData || dummyData;
 
         if (data) {
             // But we still need to wait for DOM to be ready to manipulate elements
