@@ -1,4 +1,6 @@
-# HTML Worker Builder
+# HTML Workers
+
+[![](https://b.lmpify.com/Quickstart)](https://letmeprompt.com/?q=https://uithub.com/janwilmake/html-workers)
 
 A build CLI that converts a single HTML file with embedded server script into a valid Cloudflare Worker structure.
 
