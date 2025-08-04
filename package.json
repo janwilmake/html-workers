@@ -1,0 +1,9 @@
+{
+  "name": "html-worker",
+  "version": "1.0.0",
+  "description": "Build tool for converting HTML with embedded server scripts to Cloudflare Workers",
+  "type": "module",
+  "bin": {
+    "html-worker": "./build.js"
+  }
+}

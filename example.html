@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Example App</title>
+    <script id="server">
+        // Server code with access to 'ctx.html' variable
+        export default {
+            async fetch(request, env, ctx) {
+                const url = new URL(request.url);
+
+                if (url.pathname === '/api/data') {
+                    return new Response(JSON.stringify({
+                        message: "Hello from server!",
+                        timestamp: new Date().toISOString()
+                    }), {
+                        headers: { 'content-type': 'application/json' }
+                    });
+                }
+
+
+
+                return new Response(JSON.stringify({
+                    title: "Dynamic Title from Server",
+                    items: ["Server Item 1", "Server Item 2", "Server Item 3"],
+                    timestamp: new Date().toISOString()
+                }), {
+                    headers: { 'content-type': 'application/json' }
+                });
+
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <div id="app">
+        <h1 id="title">Loading...</h1>
+        <ul id="items"></ul>
+        <p id="timestamp"></p>
+    </div>
+
+    <script>
+        // Server data is immediately available in head - no DOMContentLoaded needed!
+        const data = window.serverData;
+
+        if (data) {
+            // But we still need to wait for DOM to be ready to manipulate elements
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', updateContent);
+            } else {
+                updateContent();
+            }
+        }
+
+        function updateContent() {
+            document.getElementById('title').textContent = data.title;
+            document.getElementById('timestamp').textContent = `Generated: ${data.timestamp}`;
+
+            const itemsList = document.getElementById('items');
+            itemsList.innerHTML = data.items.map(item => `<li>${item}</li>`).join('');
+        }
+
+        // Data is available immediately for other uses
+        if (data) {
+            console.log('Server data loaded:', data);
+            document.title = data.title; // Can set title immediately
+        }
+    </script>
+</body>
+
+</html>
