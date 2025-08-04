@@ -15,8 +15,8 @@
 
 
                 return new Response(JSON.stringify({
-                    title: "Dynamic Title from Server",
-                    items: ["Server Item 1", "Server Item 2", "Server Item 3"],
+                    title: "Dynamic Title from Server :)",
+                    items: ["Server Item 1", "Server Item 2", "Server Item 3..."],
                     timestamp: new Date().toISOString()
                 }), {
                     headers: { 'content-type': 'application/json' }

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://unpkg.com/wrangler@latest/config-schema.json",
+  "name": "example",
+  "main": "dist/entry.js",
+  "compatibility_date": "2025-01-14",
+  "observability": { "logs": { "enabled": true } },
+  "build": {
+    "watch_dir": "./src",
+    "command": "node build.js src/example.html"
+  }
+}

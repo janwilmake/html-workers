@@ -88,25 +88,6 @@ export default {
   }
 
   /**
-   * Generate wrangler.jsonc file
-   * @param {string} projectName - Project name
-   * @param {boolean} hasServerCode - Whether server code exists
-   * @returns {string}
-   */
-  generateWranglerConfig(projectName, hasServerCode) {
-    return `{
-  "$schema": "https://unpkg.com/wrangler@latest/config-schema.json",
-  "name": "${projectName}",
-  ${hasServerCode ? `"main": "entry.js",` : ""}
-  "compatibility_date": "2025-01-14",${
-    hasServerCode ? "" : '\n  "assets": { "directory": "./public" },'
-  }
-  "observability": { "logs": { "enabled": true } }
-}
-`;
-  }
-
-  /**
    * Build the project
    */
   build() {
@@ -144,33 +125,7 @@ export default {
         writeFileSync(join(this.outputDir, "entry.js"), entryJS);
       }
 
-      // Generate wrangler.jsonc
-      const wranglerConfig = this.generateWranglerConfig(
-        projectName,
-        hasServerCode
-      );
-      writeFileSync(join(this.outputDir, "wrangler.jsonc"), wranglerConfig);
-
       console.log(`✅ Build complete! Files generated in ${this.outputDir}/`);
-      console.log(`📁 Generated files:`);
-      console.log(`   - entry.js (main worker entry point)`);
-      if (hasServerCode) {
-        console.log(
-          `   - worker.js (extracted server code with html variable)`
-        );
-      } else {
-        console.log(`   - public/index.html (static HTML)`);
-      }
-      console.log(`   - wrangler.jsonc (Cloudflare Worker config)`);
-
-      if (hasServerCode) {
-        console.log(
-          `\n💡 Note: Server data available as window.serverData in HTML head`
-        );
-        console.log(
-          `💡 Server code has access to 'html' variable with your template`
-        );
-      }
     } catch (error) {
       console.error("❌ Build failed:", error.message);
       process.exit(1);
