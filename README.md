@@ -12,6 +12,8 @@ A build CLI that converts a single HTML file with embedded server script into a 
 - 📁 Static file serving for HTML without server script
 - 🎯 Zero dependencies, simple CLI
 
+[Discuss](https://x.com/janwilmake/status/1952400034391007432)
+
 ## Usage
 
 ### Install
