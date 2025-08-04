@@ -1,14 +1,14 @@
 {
   "$schema": "https://unpkg.com/wrangler@latest/config-schema.json",
-  "name": "todo-app",
+  "name": "todo-app-html-worker",
   "main": "dist/entry.js",
   "compatibility_date": "2025-01-14",
   "observability": {
     "logs": { "enabled": true }
   },
   "build": {
-    "watch_dir": "./",
-    "command": "npx html-worker todo-app.html"
+    "watch_dir": "./src",
+    "command": "npx html-worker src/todo-app.html"
   },
   "vars": {
     "ENVIRONMENT": "production"
