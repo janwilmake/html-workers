@@ -15,24 +15,28 @@ A build CLI that converts a single HTML file with embedded server script into a 
 ### Install
 
 ```bash
-npm install
-# or make executable
-chmod +x build.js
+npm install html-worker
+# or run directly
+npx html-worker
 ```
 
 ### Build
 
 ```bash
+npx html-worker input.html [output-dir]
+# or if installed locally
 node build.js input.html [output-dir]
 ```
 
 ### Example
 
 ```bash
-node build.js example.html ./dist
+npx html-worker example.html ./dist
 cd dist
 npx wrangler dev
 ```
+
+**Note:** You'll need a `wrangler.jsonc` configuration file in addition to your HTML file. The build process generates the worker files, but Wrangler needs its configuration to deploy and run the worker.
 
 ## HTML Structure
 
@@ -70,8 +74,7 @@ Your HTML file can include a server script:
 dist/
 ├── entry.js          # Main worker entry point
 ├── worker.js          # Extracted server code
-├── index.html         # Clean HTML template
-└── wrangler.jsonc     # Worker configuration
+└── wrangler.jsonc     # Worker configuration (required)
 ```
 
 ### Static Only
@@ -81,7 +84,7 @@ dist/
 ├── entry.js          # Basic static handler
 ├── public/
 │   └── index.html    # Static HTML file
-└── wrangler.jsonc    # Worker configuration
+└── wrangler.jsonc    # Worker configuration (required)
 ```
 
 ## How It Works
@@ -95,3 +98,9 @@ dist/
 ## Server Data Injection
 
 When your server script returns JSON for HTML requests, it gets injected into the HTML as `window.serverData`, allowing for server-side rendering-like behavior with client-side hydration.
+
+## Requirements
+
+- Node.js (for building)
+- `wrangler.jsonc` configuration file (for deployment)
+- Cloudflare account (for deployment)
