@@ -1,0 +1,27 @@
+{
+  "$schema": "https://unpkg.com/wrangler@latest/config-schema.json",
+  "name": "todo-app",
+  "main": "dist/entry.js",
+  "compatibility_date": "2025-01-14",
+  "observability": {
+    "logs": { "enabled": true }
+  },
+  "build": {
+    "watch_dir": "./",
+    "command": "npx html-worker todo-app.html"
+  },
+  "vars": {
+    "ENVIRONMENT": "production"
+  },
+  "route": {
+    "custom_domain": true,
+    "pattern": "todo-app-html-worker.wilmake.com"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "TODOS",
+      "id": "7bc12cd31a944f53a29f700a8c688890",
+      "preview_id": "7bc12cd31a944f53a29f700a8c688890"
+    }
+  ]
+}
