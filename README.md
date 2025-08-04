@@ -66,6 +66,84 @@ Your HTML file can include a server script:
 </html>
 ```
 
+## Best Practices
+
+### Local Development with file://
+
+To enable development by opening HTML files directly in the browser (file:// protocol), always provide fallback dummy data:
+
+```html
+<script>
+  // Dummy data for file:// development
+  const dummyData = {
+    title: "Local Development Mode",
+    items: ["Item 1", "Item 2", "Item 3"],
+    timestamp: new Date().toISOString(),
+  };
+
+  // Use server data when available, fallback to dummy data
+  const data = window.serverData || dummyData;
+
+  // Your app logic using 'data'
+  console.log("Using data:", data);
+</script>
+```
+
+This allows you to:
+
+- Open the HTML file directly in a browser during development
+- Test your frontend logic without running the worker
+- Maintain a consistent data structure between development and production
+
+### Server Response Patterns
+
+**Preferred: Return JSON at root '/'**
+
+For most use cases, return JSON data that gets automatically injected as `window.serverData`:
+
+```html
+<script id="server">
+  export default {
+    async fetch(request, env, ctx) {
+      // Return JSON - gets injected into HTML automatically
+      return new Response(
+        JSON.stringify({
+          title: "Dynamic Title",
+          data: await fetchSomeData(),
+        }),
+        {
+          headers: { "content-type": "application/json" },
+        }
+      );
+    },
+  };
+</script>
+```
+
+**Advanced: Custom HTML Templating**
+
+If you need server-side templating, you can modify and return `ctx.html` directly:
+
+```html
+<script id="server">
+  export default {
+    async fetch(request, env, ctx) {
+      const data = await fetchSomeData();
+
+      // Modify the HTML directly for templating
+      let html = ctx.html.replace("{{TITLE}}", data.title);
+      html = html.replace("{{CONTENT}}", data.content);
+
+      return new Response(html, {
+        headers: { "content-type": "text/html; charset=utf-8" },
+      });
+    },
+  };
+</script>
+```
+
+**Recommendation:** Use JSON injection for most cases as it provides better separation between server logic and client-side hydration. Only use HTML templating when you need SEO-critical content or complex server-side rendering.
+
 ## Generated Structure
 
 ### With Server Script
